@@ -1,0 +1,36 @@
+name: Build and Test (cJSON)
+
+on:
+  push:
+    branches:
+      - ino_dev
+  pull_request:
+    branches:
+      - ino_dev
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake make gcc
+
+      - name: Create build directory
+        run: mkdir build
+
+      - name: Run CMake
+        working-directory: ./build
+        run: cmake ..
+
+      - name: Build project
+        working-directory: ./build
+        run: make
+
+      - name: Run tests
+        working-directory: ./build
+        run: ctest --output-on-failure
