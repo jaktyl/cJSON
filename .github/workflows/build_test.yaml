@@ -35,8 +35,11 @@ jobs:
         working-directory: ./build
         run: ctest --output-on-failure
 
-      - name: Upload build output
+      - name: Show build output
+        run: ls -R build
+
+      - name: Upload all build output
         uses: actions/upload-artifact@v4
         with:
-          name: cjson-test-binary
-          path: build/cJSONTest
+          name: build-artifacts
+          path: build/**
